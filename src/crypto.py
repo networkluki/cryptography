@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Monoalphabetic substitution cipher CLI (educational/demo)."""
+"""Monoalphabetic substitution cipher CLI (educational/demo).
+
+Deterministic, case-preserving, and intended for learning purposes only.
+"""
 
 from __future__ import annotations
 
