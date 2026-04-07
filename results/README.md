@@ -1,4 +1,4 @@
 # Results
 
-Generated outputs, measurements, and analysis artifacts should be organized here.
-Include timestamps, experiment IDs, and a short provenance note for each result set.
+Store generated outputs, measurements, and analysis artifacts in this folder.
+Include timestamp, experiment ID, and provenance notes for each result set.

@@ -88,7 +88,7 @@ def main() -> int:
     parser.add_argument(
         "cmd",
         nargs="?",
-        help="Command: show | show-map | enc | dec. If omitted, input defaults to decrypt.",
+        help="Command: show | show-map | enc | dec. If omitted, single input defaults to decrypt.",
     )
     parser.add_argument(
         "text",
