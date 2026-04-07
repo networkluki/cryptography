@@ -41,7 +41,7 @@ def encrypt_text(text: str, enc: dict[str, str]) -> str:
     out: list[str] = []
     for ch in text:
         if ch.isalpha():
-            mapped_u = enc.get(ch.lower(), ch.upper())
+            mapped_u = enc.get(ch.lower(), ch)
             out.append(mapped_u if ch.isupper() else mapped_u.lower())
         else:
             out.append(ch)
