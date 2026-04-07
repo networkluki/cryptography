@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-chiper: monoalphabetic substitution cipher CLI (educational/demo).
+cipher: monoalphabetic substitution cipher CLI (educational/demo).
 
 Commands:
   - show        : prints alphabet + key as exactly two lines
@@ -9,7 +9,7 @@ Commands:
   - dec [TEXT]  : decrypt TEXT (or stdin if omitted)
 
 Convenience:
-  - If you run: python3 chiper.py kjlf
+  - If you run: python3 crypto.py kjlf
     it will default to decrypting "kjlf".
 """
 
@@ -97,7 +97,7 @@ def main() -> int:
     enc, dec = build_maps()
 
     parser = argparse.ArgumentParser(
-        prog="chiper",
+        prog="crypto",
         description="Monoalphabetic substitution cipher CLI (A->P style).",
     )
     parser.add_argument(
@@ -131,7 +131,7 @@ def main() -> int:
         return 0
 
     # --- implicit decrypt fallback ---
-    # Example: python3 chiper.py kjlf
+    # Example: python3 crypto.py kjlf
     if args.cmd is not None and args.text is None:
         print(decrypt_text(args.cmd, dec))
         return 0

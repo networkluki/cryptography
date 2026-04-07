@@ -1,9 +1,9 @@
-python3 crypto.py show
+python3 src/crypto.py show
 
-python3 crypto.py show-map
+python3 src/crypto.py show-map
 
-python3 crypto.py enc "hemlig"
+python3 src/crypto.py enc "hemlig"
 
-python3 crypto.py test
+python3 src/crypto.py dec "test"
 
-echo "kjlf" | python3 crypto.py dec
+echo "kjlf" | python3 src/crypto.py dec
