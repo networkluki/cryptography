@@ -30,7 +30,7 @@ def validate_key(cipher: str) -> None:
     """Validate that the key is exactly 26 unique letters A-Z."""
     if len(cipher) != 26:
         raise ValueError("CIPHER must be exactly 26 characters long.")
-    if not cipher.isalpha():
+    if not cipher.isascii() or not cipher.isalpha():
         raise ValueError("CIPHER must contain only letters A-Z.")
     cipher_u = cipher.upper()
     if set(cipher_u) != set(string.ascii_uppercase):
@@ -51,24 +51,24 @@ def build_maps() -> Tuple[Dict[str, str], Dict[str, str]]:
 
 
 def encrypt_text(text: str, enc: Dict[str, str]) -> str:
-    """Encrypt text; preserve case; keep non-letters unchanged."""
+    """Encrypt ASCII letters; preserve case; keep all other characters unchanged."""
     out = []
     for ch in text:
-        if ch.isalpha():
-            mapped_u = enc.get(ch.lower(), ch.upper())
-            out.append(mapped_u if ch.isupper() else mapped_u.lower())
+        if ch in string.ascii_letters:
+            mapped_u = enc[ch.lower()]
+            out.append(mapped_u if ch in string.ascii_uppercase else mapped_u.lower())
         else:
             out.append(ch)
     return "".join(out)
 
 
 def decrypt_text(text: str, dec: Dict[str, str]) -> str:
-    """Decrypt text; preserve case; keep non-letters unchanged."""
+    """Decrypt ASCII letters; preserve case; keep all other characters unchanged."""
     out = []
     for ch in text:
-        if ch.isalpha():
+        if ch in string.ascii_letters:
             mapped_l = dec.get(ch.lower(), ch.lower())
-            out.append(mapped_l.upper() if ch.isupper() else mapped_l)
+            out.append(mapped_l.upper() if ch in string.ascii_uppercase else mapped_l)
         else:
             out.append(ch)
     return "".join(out)
