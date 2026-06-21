@@ -18,6 +18,16 @@ class CryptoTests(unittest.TestCase):
         enc, _ = build_maps()
         self.assertEqual(encrypt_text("123-_=+", enc), "123-_=+")
 
+    def test_non_ascii_letters_unchanged(self):
+        enc, dec = build_maps()
+        original = "åßé"
+        self.assertEqual(encrypt_text(original, enc), original)
+        self.assertEqual(decrypt_text(original, dec), original)
+
+    def test_validate_key_rejects_non_ascii_letters(self):
+        with self.assertRaisesRegex(ValueError, "only letters A-Z"):
+            validate_key("ABCDEFGHIJKLMNOPQRSTUVWXYÅ")
+
 
 if __name__ == "__main__":
     unittest.main()
