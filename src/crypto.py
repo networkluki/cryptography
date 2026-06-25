@@ -18,12 +18,13 @@ from __future__ import annotations
 import argparse
 import string
 import sys
-from typing import Dict, Tuple
+from typing import Dict, TextIO, Tuple
 
 PLAIN = string.ascii_lowercase  # abcdefghijklmnopqrstuvwxyz
 
 # Embedded cipher alphabet (must be a permutation of A-Z)
 CIPHER = "PAQCRIXOVEHYJUZGSTKLNFMDBW"
+MAX_STDIN_BYTES = 1_048_576
 
 
 def validate_key(cipher: str) -> None:
@@ -74,6 +75,14 @@ def decrypt_text(text: str, dec: Dict[str, str]) -> str:
     return "".join(out)
 
 
+def read_bounded_stdin(stdin: TextIO, limit: int = MAX_STDIN_BYTES) -> str:
+    """Read stdin with a hard size limit to avoid unbounded memory growth."""
+    data = stdin.read(limit + 1)
+    if len(data) > limit:
+        raise ValueError(f"Input exceeds maximum size of {limit} bytes.")
+    return data
+
+
 def cmd_show() -> int:
     # EXACTLY two lines, per your request
     print(PLAIN)
@@ -87,7 +96,7 @@ def cmd_show_map() -> int:
     return 0
 
 
-def main() -> int:
+def main(stdin_limit: int = MAX_STDIN_BYTES) -> int:
     try:
         validate_key(CIPHER)
     except ValueError as e:
@@ -121,12 +130,28 @@ def main() -> int:
         return cmd_show_map()
 
     if args.cmd == "enc":
-        data = args.text if args.text is not None else sys.stdin.read()
+        try:
+            data = (
+                args.text
+                if args.text is not None
+                else read_bounded_stdin(sys.stdin, stdin_limit)
+            )
+        except ValueError as e:
+            print(f"Input error: {e}", file=sys.stderr)
+            return 2
         print(encrypt_text(data, enc))
         return 0
 
     if args.cmd == "dec":
-        data = args.text if args.text is not None else sys.stdin.read()
+        try:
+            data = (
+                args.text
+                if args.text is not None
+                else read_bounded_stdin(sys.stdin, stdin_limit)
+            )
+        except ValueError as e:
+            print(f"Input error: {e}", file=sys.stderr)
+            return 2
         print(decrypt_text(data, dec))
         return 0
 
