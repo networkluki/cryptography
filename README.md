@@ -1,4 +1,4 @@
-# Cryptography Research Repository
+# Cryptography Research
 
 A structured repository for cryptography-focused research artifacts, experiments, and documentation.
 
